@@ -1,0 +1,65 @@
+def print_board(rows):
+  for i in range(3):
+    for j in range(3):
+      print(rows[i][j],end='')
+    print()
+  print()
+def init_board():
+  rows=[['@']*3 for i in range(3)]
+  return rows
+rows=init_board()
+turn = 'o'
+def check_win(rows,turn):
+  #確認水平方向
+  for r in range(3):
+    if (rows[r][0] == turn) & (rows[r][1] == turn) & (rows[r][2] == turn):
+      return True
+  #確認垂直方向
+  for c in range(3):
+    if (rows[0][c] == turn) & (rows[1][c] == turn) & (rows[2][c] == turn):
+      return True
+  #確認左上至右下對角線
+  if (rows[0][0] == turn) & (rows[1][1] == turn) & (rows[2][2] == turn):
+    return True
+  #確認右上至左下對角線
+  if (rows[0][2] == turn) & (rows[1][1] == turn) & (rows[2][0] == turn):
+    return True
+  return False
+
+def check_end(rows):
+  #確認所有格子是否都填滿了
+  for r in range(3):
+      for c in range(3):
+          if (rows[r][c] == '@'):
+              return False
+  return True
+
+while True:
+  print_board(rows)
+  r = input('列編號(0~2):')
+  c = input('欄編號(0~2):')
+  r = int(r)
+  c = int(c)
+  if rows[r][c] != '@':
+    print('這個位置已經輸入符號')
+    continue
+  else:
+      rows[r][c] = turn
+
+      if check_win(rows,turn):
+          print_board(rows)
+          print(turn + "win")
+          rows = init_board()
+      elif check_end(rows):
+          print_board(rows)
+          print('equal')
+          rows = init_board()
+      else:
+          # 換人下棋  
+          if turn == 'o':
+              turn = 'x'
+          else:
+              turn = 'o'
+
+
+
